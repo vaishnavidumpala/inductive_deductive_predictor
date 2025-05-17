@@ -53,33 +53,34 @@ This project aims to support students in identifying their learning preferences 
 
 ## 📁 Project Directory Structure
 
+```
 inductive_deductive/
 ├── backend/
-│ ├── app.py
-│ ├── model.pkl
-│ ├── preprocessor.pkl
-│ ├── encoder.pkl
-│ └── preprocessing.py
+│   ├── app.py
+│   ├── model.pkl
+│   ├── preprocessor.pkl
+│   ├── encoder.pkl
+│   └── preprocessing.py
 │
 ├── dataset/
-│ └── inductive_deductive_data.csv
+│   └── inductive\_deductive\_data.csv
 │
 ├── public/
 │
 ├── src/
-│ ├── index.js
-│ └── config.js
+│   ├── index.js
+│   └── config.js
 │
 ├── views/
-│ ├── signup.ejs
-│ ├── login.ejs
-│ ├── info.ejs
-│ ├── home.ejs
-│ └── result.ejs
+│   ├── signup.ejs
+│   ├── login.ejs
+│   ├── info.ejs
+│   ├── home.ejs
+│   └── result.ejs
 │
 ├── package.json
 └── README.md
-
+```
 ---
 
 ## 🏁 How to Run Locally
@@ -89,25 +90,29 @@ inductive_deductive/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/inductive-deductive-predictor.git
+git clone https://github.com/vaishnavidumpala/inductive-deductive-predictor.git
 cd inductive-deductive-predictor
+````
 
 ### 2️⃣ Setup Node.js Backend
 
+```bash
 cd src
 npm install express ejs bcrypt mongoose axios
 node index.js
+```
 
 ### 3️⃣ Setup Flask ML Backend
 
+```bash
 cd ../backend
 pip install flask flask-cors scikit-learn pandas numpy imbalanced-learn
 python app.py
+```
 
 ### 4️⃣ Run the App
 
-Open your browser and navigate to: http://localhost:5001
+Open your browser and navigate to: [http://localhost:5001](http://localhost:5001)
 Register or log in to access the quiz.
 After completing the quiz, you’ll see your predicted learning style with tailored resources.
-
 

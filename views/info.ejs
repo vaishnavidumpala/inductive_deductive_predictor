@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 ,maximum-scale=1.0,user-scalable=no"/>
+  <title>Learning Styles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(-45deg, #2e3a59, #1b1f3a, #3c4560, #1e2a3c);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  position: relative;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero-background {
+  flex: 1;
+  position: relative;
+  padding: 2rem 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+#particles-js,
+.overlay-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.overlay-gradient {
+  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 2;
+}
+
+.header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00dbde, #fc00ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.highlight {
+  background: linear-gradient(90deg, #00dbde, #fc00ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.styles-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  max-width: 1000px;
+  width: 100%;
+  z-index: 1;
+  margin: 0 auto;
+}
+
+.style-card {
+  position: relative;
+  width: 320px;
+  min-height: 360px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  font-size: 1.8rem;
+}
+
+.style-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Updated top borders + glows for inductive & deductive */
+.inductive {
+  border-top: 4px solid #00bfff;
+  box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+}
+
+.deductive {
+  border-top: 4px solid #32cd32;
+  box-shadow: 0 0 15px rgba(50, 205, 50, 0.3);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  font-size: 2.2rem;
+}
+
+.card-header h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-description {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1.2rem;
+}
+
+.features-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.emoji {
+  margin-right: 0.6rem;
+  font-size: 1.2rem;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 0.1rem;
+}
+
+.or-circle {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.quiz-prompt {
+  text-align: center;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.quiz-prompt p {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.quiz-button {
+  background: linear-gradient(90deg, #00bfff, #32cd32);
+  border: none;
+  color: white;
+  padding: 0.6rem 1.6rem;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.pulse-effect {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+  z-index: 0;
+}
+
+@media (max-width: 900px) {
+  .styles-container {
+    flex-direction: column;
+  }
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.4rem;
+  }
+
+  .divider {
+    margin: 1rem 0;
+  }
+
+  .style-card {
+    width: 100%;
+    max-width: 360px;
+    min-height: auto;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .quiz-button {
+    font-size: 0.95rem;
+  }
+}
+</style>
+</head>
+<body>
+  <div class="hero-background">
+    <div class="particles" id="particles-js"></div>
+    <div class="overlay-gradient"></div>
+    
+    <div class="header">
+      <h1 class="animate_animated animate_fadeInDown">Discover Your <span class="highlight">Learning Style</span></h1>
+      <p class="subtitle animate_animated animate_fadeIn animate_delay-1s">Which approach works best for you?</p>
+    </div>
+    
+    <div class="styles-container">
+      <!-- Inductive Learning Card -->
+      <div class="style-card inductive animate_animated animate_fadeInLeft animate_delay-1s">
+        <div class="card-header">
+          <div class="icon-circle">
+            <span class="icon">🔍</span>
+          </div>
+          <h2>Inductive Learning</h2>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Learn by exploring examples first, then figure out the rules.</p>
+          <ul class="features-list">
+            <li><span class="emoji">🔍</span> Starts with examples</li>
+            <li><span class="emoji">🧠</span> Helps discover patterns</li>
+            <li><span class="emoji">⚙</span> Great for creative thinking</li>
+          </ul>
+        </div>
+        <div class="pulse-effect"></div>
+      </div>
+      
+      <!-- Divider -->
+      <div class="divider animate_animated animate_fadeIn animate_delay-1s">
+        <span class="or-circle">OR</span>
+      </div>
+      
+      <!-- Deductive Learning Card -->
+      <div class="style-card deductive animate_animated animate_fadeInRight animate_delay-1s">
+        <div class="card-header">
+          <div class="icon-circle">
+            <span class="icon">📚</span>
+          </div>
+          <h2>Deductive Learning</h2>
+        </div>
+        <div class="card-body">
+          <p class="card-description">Start with rules or theory, then see how they work in examples.</p>
+          <ul class="features-list">
+            <li><span class="emoji">📘</span> Begins with concepts</li>
+            <li><span class="emoji">🛠</span> Apply steps to solve</li>
+            <li><span class="emoji">✅</span> Good for structured tasks</li>
+          </ul>
+        </div>
+        <div class="pulse-effect"></div>
+      </div>
+    </div>
+    
+    <div class="quiz-prompt animate_animated animate_fadeInUp animate_delay-2s">
+      <p>Not sure which style fits you?</p>
+      <a href="/home" class="quiz-button">Take the Quiz</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Initialize particles.js
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.5, "random": true },
+        "size": { "value": 3, "random": true },
+        "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.2, "width": 1 },
+        "move": { "enable": true, "speed": 2, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        }
+      }
+    });
+
+    // Card hover effects
+    document.querySelectorAll('.style-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.querySelector('.pulse-effect').style.transform = 'scale(1.1)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.querySelector('.pulse-effect').style.transform = 'scale(1)';
+      });
+    });
+  </script>
+</body>
+</html>

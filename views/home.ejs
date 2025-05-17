@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Learning Style Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&family=Montserrat:wght@600;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #2e3a59, #1b1f3a, #3c4560, #1e2a3c);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .overlay-gradient {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.5) 100%);
+      z-index: 1;
+    }
+
+    .quiz-container {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      margin: 50px auto;
+    }
+
+    .title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-align: center;
+      background: linear-gradient(90deg, #00dbde, #fc00ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .swiper {
+      width: 100%;
+      height: auto;
+      margin-bottom: 30px;
+    }
+
+    .swiper-slide {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(5px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .question {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      text-align: center;
+      color: white;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .options label {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      color: white;
+    }
+
+    .options label:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .options label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 5px;
+      background: #00bfff;
+      transition: width 0.3s ease;
+    }
+
+    .options label:nth-child(even)::before {
+      background: #32cd32;
+    }
+
+    .options input[type="radio"],
+    .options input[type="checkbox"] {
+      margin-right: 15px;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .options input[type="checkbox"] {
+      border-radius: 5px;
+    }
+
+    .options input[type="radio"]:checked,
+    .options input[type="checkbox"]:checked {
+      border-color: #00bfff;
+      background-color: #00bfff;
+    }
+
+    .options input[type="radio"]:checked::after,
+    .options input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .options input[type="checkbox"]:checked::after {
+      content: '✓';
+      color: white;
+      font-size: 12px;
+      line-height: 1;
+      border-radius: 0;
+      width: auto;
+      height: auto;
+    }
+
+    .swiper-button-next, 
+    .swiper-button-prev {
+      color: white;
+      background: rgba(255, 255, 255, 0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+    }
+
+    .swiper-button-next.swiper-button-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    .swiper-button-next:hover, 
+    .swiper-button-prev:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .swiper-button-next::after, 
+    .swiper-button-prev::after {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .progress-container {
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #00bfff, #32cd32);
+      transition: width 0.5s ease;
+    }
+
+    .submit-btn {
+      display: block;
+      margin: 20px auto 0;
+      background: linear-gradient(90deg, #00bfff, #32cd32);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .submit-btn:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .toast {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background: #ff4757;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: 500;
+      display: none;
+      z-index: 1000;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: slideIn 0.5s ease, fadeOut 0.5s ease 2.5s forwards;
+    }
+
+    .result-container {
+      margin-top: 30px;
+      text-align: center;
+      padding: 20px;
+      display: none;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .result-card h3 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .highlight {
+      background: linear-gradient(90deg, #00bfff, #32cd32);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    .result-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .home-button, .retry-button {
+      background: linear-gradient(90deg, #00bfff, #32cd32);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .home-button:hover, .retry-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 1.1rem;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .retry-button {
+      margin-top: 15px;
+      background: linear-gradient(90deg, #ff8a00, #e52e71);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .quiz-container {
+        padding: 20px;
+        margin: 20px auto;
+      }
+      
+      .title {
+        font-size: 2rem;
+      }
+      
+      .question {
+        font-size: 1.1rem;
+      }
+      
+      .options label {
+        padding: 12px 15px;
+      }
+
+      .result-card h3 {
+        font-size: 1.5rem;
+      }
+
+      .swiper-button-next, 
+      .swiper-button-prev {
+        width: 30px;
+        height: 30px;
+      }
+
+      .swiper-button-next::after, 
+      .swiper-button-prev::after {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .quiz-container {
+        padding: 15px;
+      }
+      
+      .title {
+        font-size: 1.8rem;
+      }
+      
+      .question {
+        font-size: 1rem;
+        margin-bottom: 15px;
+      }
+      
+      .options label {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+
+      .submit-btn {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="overlay-gradient"></div>
+  
+  <div class="quiz-container">
+    <h2 class="title">Discover Your Learning Style</h2>
+    <p class="subtitle">Answer these questions to find your optimal learning approach</p>
+   
+
+    <form id="quizForm">
+      <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+    
+            <% const options = ["Never", "Sometimes", "Usually", "Always"]; %>
+        
+            <!-- Loop through 14 questions -->
+            <% const questions = [
+              "I try solving problems before learning the formal method.",
+              "I understand best when the teacher explains the rules first.",
+              "I like discovering rules or patterns by working through examples.",
+              "I often wait for the teacher’s solution before trying it myself.",
+              "I prefer exploring multiple possibilities rather than one fixed path.",
+              "I prefer one correct answer over open-ended thinking.",
+              "I relate new knowledge to real-world experiences.",
+              "I like to know the theory before attempting exercises.",
+              "I enjoy figuring things out without being told exactly how.",
+              "I enjoy learning through trial and error.",
+              "I depend on clearly defined concepts before applying them.",
+              "I learn best through structured notes and formal explanations.",
+              "I often learn better by doing experiments myself.",
+              "I prefer step-by-step instructions over self-exploration."
+            ]; %>
+          
+            <% questions.forEach((q, index) => { %>
+              <div class="swiper-slide">
+                <div class="question"><%= index + 1 %>. <%= q %></div>
+                <div class="options">
+                  <% options.forEach(opt => { %>
+                    <label>
+                      <input type="radio" name="Q<%= index + 1 %>" value="<%= opt %>" required>
+                      <%= opt %>
+                    </label>
+                  <% }); %>
+                </div>
+                <% if (index === questions.length - 1) { %>
+                  <button id="submitBtn" type="submit" class="submit-btn" style="margin-top: 20px;">
+                    <span id="submitText">Get My Results</span>
+                    <span id="submitSpinner" style="display:none;">⏳</span>
+                  </button>
+                <% } %>
+              </div>
+            <% }); %>
+            </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </form>
+
+  <div class="toast" id="toast">Please select an answer to continue</div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+  <script>
+    // Initialize particles.js for full page
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 80,
+          "density": {
+            "enable": true,
+            "value_area": 800
+          }
+        },
+        "color": {
+          "value": "#ffffff"
+        },
+        "shape": {
+          "type": "circle",
+          "stroke": {
+            "width": 0,
+            "color": "#000000"
+          },
+          "polygon": {
+            "nb_sides": 5
+          }
+        },
+        "opacity": {
+          "value": 0.5,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 1,
+            "opacity_min": 0.1,
+            "sync": false
+          }
+        },
+        "size": {
+          "value": 3,
+          "random": true,
+          "anim": {
+            "enable": false,
+            "speed": 40,
+            "size_min": 0.1,
+            "sync": false
+          }
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.2,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": true,
+          "straight": false,
+          "out_mode": "out",
+          "bounce": false,
+          "attract": {
+            "enable": false,
+            "rotateX": 600,
+            "rotateY": 1200
+          }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": {
+            "enable": true,
+            "mode": "repulse"
+          },
+          "onclick": {
+            "enable": true,
+            "mode": "push"
+          },
+          "resize": true
+        },
+        "modes": {
+          "grab": {
+            "distance": 400,
+            "line_linked": {
+              "opacity": 1
+            }
+          },
+          "bubble": {
+            "distance": 400,
+            "size": 40,
+            "duration": 2,
+            "opacity": 8,
+            "speed": 3
+          },
+          "repulse": {
+            "distance": 100,
+            "duration": 0.4
+          },
+          "push": {
+            "particles_nb": 4
+          },
+          "remove": {
+            "particles_nb": 2
+          }
+        }
+      },
+      "retina_detect": true
+    });
+  document.addEventListener('DOMContentLoaded', () => {
+    const totalQuestions = 14;
+    let currentSlideIndex = 0;
+    const answered = new Array(totalQuestions).fill(false);
+
+    const toast = document.getElementById('toast');
+    const nextButton = document.querySelector('.swiper-button-next');
+    const prevButton = document.querySelector('.swiper-button-prev');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+
+    const swiper = new Swiper('.mySwiper', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      allowTouchMove: false,
+      observer: true,
+      observeParents: true,
+      on: {
+        init: function () {
+          currentSlideIndex = this.activeIndex;
+          updateNavigationButtons();
+        },
+        slideChange: function () {
+          currentSlideIndex = this.activeIndex;
+          updateNavigationButtons();
+        }
+      }
+    });
+
+    function updateNavigationButtons() {
+      const currentInputs = document.querySelectorAll(`.swiper-slide:nth-child(${currentSlideIndex + 1}) input[type="radio"]`);
+      const isAnswered = Array.from(currentInputs).some(input => input.checked);
+      nextButton.classList.toggle('swiper-button-disabled', !isAnswered);
+      prevButton.classList.toggle('swiper-button-disabled', currentSlideIndex === 0);
+    }
+
+    document.querySelectorAll('.options input[type="radio"]').forEach(input => {
+      input.addEventListener('change', (e) => {
+        const qNum = parseInt(e.target.name.replace('Q', '')) - 1;
+        answered[qNum] = true;
+        updateNavigationButtons();
+      });
+    });
+
+    nextButton.addEventListener('click', () => {
+      if (!answered[currentSlideIndex]) {
+        showToast("Please select an answer to continue");
+      } else {
+        swiper.slideNext();
+      }
+    });
+
+    prevButton.addEventListener('click', () => {
+      swiper.slidePrev();
+    });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    document.getElementById("quizForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const answeredCount = answered.filter(a => a).length;
+      if (answeredCount < totalQuestions) {
+        showToast("Please answer all questions before submitting");
+        swiper.slideTo(0);
+        return;
+      }
+
+      const formData = {};
+      document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+        formData[input.name] = input.value;
+      });
+
+      submitBtn.disabled = true;
+      submitText.textContent = 'Processing';
+      submitSpinner.style.display = 'inline-block';
+
+      try {
+        const response = await fetch("http://localhost:5000/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+
+        const { prediction, inductive_percentage, deductive_percentage } = data;
+
+        const url = `/result?` +
+          `prediction=${encodeURIComponent(prediction)}` +
+          `&inductive_percentage=${encodeURIComponent(inductive_percentage)}` +
+          `&deductive_percentage=${encodeURIComponent(deductive_percentage)}`;
+
+        
+        console.log("Redirecting to", url)
+        window.location.href = `${window.location.origin}${url}`;
+
+      } catch (err) {
+        showError("Something went wrong. Please try again.");
+        
+      } finally {
+        submitBtn.disabled = false;
+        submitText.textContent = 'Get My Results';
+        submitSpinner.style.display = 'none';
+      }
+    });
+
+    function showError(message) {
+      const resultContainer = document.getElementById('result') || document.createElement('div');
+      resultContainer.id = 'result';
+      resultContainer.className = 'error-message';
+      resultContainer.innerHTML = `
+        <p>${message}</p>
+        <button onclick="window.location.reload()" class="retry-button">Retry</button>
+      `;
+      document.body.appendChild(resultContainer);
+      resultContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+  </div>
+</body>
+</html>
